@@ -30,7 +30,7 @@ permissions()
 
 case "$1" in
     configure)
-        if /usr/lib/bareos/scripts/bareos-config deploy_config "@configtemplatedir@" "@confdir@" "bareos-dir"; then
+        if ! /usr/lib/bareos/scripts/bareos-config has_config "bareos-dir" && /usr/lib/bareos/scripts/bareos-config deploy_config "@configtemplatedir@" "@confdir@" "bareos-dir"; then
             /usr/lib/bareos/scripts/bareos-config apply_dbconfig_settings
         fi
         permissions

@@ -30,7 +30,7 @@ permissions()
 
 case "$1" in
     configure)
-        /usr/lib/bareos/scripts/bareos-config deploy_config "@configtemplatedir@" "@confdir@" "tray-monitor" || true
+        ! /usr/lib/bareos/scripts/bareos-config has_config "tray-monitor" && /usr/lib/bareos/scripts/bareos-config deploy_config "@configtemplatedir@" "@confdir@" "tray-monitor" || true
         permissions
         ;;
     abort-upgrade|abort-remove|abort-deconfigure)

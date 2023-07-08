@@ -42,7 +42,7 @@ fi
 
 case "$1" in
     configure)
-        /usr/lib/bareos/scripts/bareos-config deploy_config "@configtemplatedir@" "@confdir@" "bareos-sd" || true
+        ! /usr/lib/bareos/scripts/bareos-config has_config "bareos-sd" && /usr/lib/bareos/scripts/bareos-config deploy_config "@configtemplatedir@" "@confdir@" "bareos-sd" || true
         permissions
         /usr/lib/bareos/scripts/bareos-config setup_sd_user
         # on Univention distributions the ucr command allows to open the firewall

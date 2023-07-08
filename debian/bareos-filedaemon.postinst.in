@@ -19,7 +19,7 @@ set -e
 
 case "$1" in
     configure)
-        /usr/lib/bareos/scripts/bareos-config deploy_config "@configtemplatedir@" "@confdir@" "bareos-fd" || true
+        ! /usr/lib/bareos/scripts/bareos-config has_config "bareos-fd" && /usr/lib/bareos/scripts/bareos-config deploy_config "@configtemplatedir@" "@confdir@" "bareos-fd" || true
         # on Univention distributions the ucr command allows to open the firewall
         if [ -x "/etc/init.d/univention-firewall" ] && which ucr >/dev/null 2>&1; then
             ucr set \
