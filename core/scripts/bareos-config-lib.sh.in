@@ -395,6 +395,30 @@ get_config_path2()
     fi
 }
 
+has_config()
+{
+    # configuration component (either file or bareos-dir, ...)
+    COMPONENT="${1}"
+
+    if ! CONFIG_PATH=`get_config_path "${COMPONENT}" 2>/dev/null`; then
+        return 1
+    fi
+
+    if [ -d "${CONFIG_PATH}" ]; then
+        # Check if config files exist.
+        # There should a least be 2 configuration files.
+        # bareos-dir:
+        #   It could be, that only the file MyCatalog.conf exists,
+        #   (created by bareos-database-common) but no other files.
+        #   In this case, it counts as not configured.
+        [ `echo ${CONFIG_PATH}/*/*.conf | wc -w` -gt 1 ]
+        return $?
+    fi
+
+    # config file exists
+    return 0
+}
+
 deploy_config()
 {
    ARGS=$#
